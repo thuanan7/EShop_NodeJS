@@ -7,7 +7,20 @@ const controller = {};
 
 controller.showHomePage = async (req, res) => {
   const Brands = models.Brand;
+  const Categories = models.Category;
+
   const listBrands = await Brands.findAll();
+
+  //categoryArray: [1, 2, 3, 4] => [[1], [3, 4], [2]]
+  const categoryArray = await Categories.findAll();
+  const secondCategoryArray = categoryArray.splice(2, 2);
+  const thirdCategoryArray = categoryArray.splice(1, 1);
+  res.locals.formattedCategoryArray = [
+    categoryArray,
+    secondCategoryArray,
+    thirdCategoryArray,
+  ];
+
   res.render("index", {listBrands});
 };
 
