@@ -21,13 +21,13 @@ controller.showHomePage = async (req, res) => {
   ];
 
   const recentProducts = await Products.findAll({
-    attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice', 'updatedAt'],
+    attributes: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice', 'updatedAt'],
     order: [['updatedAt', 'DESC']],
     limit: 10,
   });
 
   const featuredProducts = await Products.findAll({
-    attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
+    attributes: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
     order: [['stars', 'DESC']],
     limit: 10,
   });
