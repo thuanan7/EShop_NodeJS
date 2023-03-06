@@ -20,6 +20,12 @@ controller.showHomePage = async (req, res) => {
     thirdCategoryArray,
   ];
 
+  const recentProducts = await Products.findAll({
+    attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
+    order: [['updatedAt', 'DESC']],
+    limit: 10,
+  });
+
   const products = await Products.findAll({
     attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
     order: [['stars', 'DESC']],
@@ -27,7 +33,7 @@ controller.showHomePage = async (req, res) => {
   });
 
   const listBrands = await Brands.findAll();
-  res.render("index", {listBrands, products});
+  res.render("index", {listBrands, products, recentProducts});
 };
 
 controller.showPage = (req, res, next) => {
