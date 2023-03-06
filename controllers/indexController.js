@@ -21,19 +21,19 @@ controller.showHomePage = async (req, res) => {
   ];
 
   const recentProducts = await Products.findAll({
-    attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
+    attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice', 'updatedAt'],
     order: [['updatedAt', 'DESC']],
     limit: 10,
   });
 
-  const products = await Products.findAll({
+  const featuredProducts = await Products.findAll({
     attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
     order: [['stars', 'DESC']],
     limit: 10,
   });
 
   const listBrands = await Brands.findAll();
-  res.render("index", {listBrands, products, recentProducts});
+  res.render("index", {listBrands, featuredProducts, recentProducts});
 };
 
 controller.showPage = (req, res, next) => {
