@@ -159,7 +159,11 @@
     </div>
     <div class="brand-slider">
       {{#each listBrands}}
-      <div class="brand-item"><img src="{{dataValues.imagePath}}" alt="{{dataValues.name}}" /></div>
+      <div class="brand-item">
+        <a href="/products?brand={{dataValues.id}}">
+        <img src="{{dataValues.imagePath}}" alt="{{dataValues.name}}" />
+        </a>
+      </div>
       {{/each}}
     </div>
   </div>
