@@ -1,6 +1,6 @@
 <div class="product-item">
     <div class="product-image">
-        <a href="/product-detail">
+        <a href="/products/{{dataValues.id}}">
             <img src="{{dataValues.imagePath}}" alt="{{dataValues.name}}" />
         </a>
         <div class="product-action">
@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="product-content">
-        <div class="title"><a href="#">{{dataValues.name}}</a></div>
+        <div class="title"><a href="/products/{{dataValues.id}}">{{dataValues.name}}</a></div>
         <div class="ratting">
             {{{displayStars dataValues.stars}}}
         </div>

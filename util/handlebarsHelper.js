@@ -25,4 +25,8 @@ helper.displayStars = (stars) => {
     return show;
 };
 
+helper.specifications = (specs) => specs.split("\n\n");
+
+helper.formatTime = (time) => time.toString().slice(4, 15);
+
 module.exports = helper;

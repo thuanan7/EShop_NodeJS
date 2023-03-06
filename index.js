@@ -19,6 +19,8 @@ app.engine(
     defaultLayout: "layout",
     helpers: {
       displayStars: helper.displayStars,
+      specifications: helper.specifications,
+      formatTime: helper.formatTime,
     },
   })
 );

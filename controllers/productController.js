@@ -54,4 +54,47 @@ productController.show = async (req, res) => {
     res.render("product-list");
 };
 
+productController.detail = async (req, res) => {
+    const productId = parseInt(req.params.id) || 0;
+
+    const categories = await models.Category.findAll({
+        attributes: ['id', 'name', 'imagePath'],
+        include: [{ model: models.Product }],
+    });
+    res.locals.categories = categories;
+
+    const brands = await models.Brand.findAll({
+        attributes: ['id', 'name', 'imagePath'],
+        include: [{ model: models.Product }],
+    });
+    res.locals.brands = brands;
+
+    const tags = await models.Tag.findAll({
+        attributes: ['id', 'name'],
+    });
+    res.locals.tags = tags;
+
+    const product = await models.Product.findOne({
+        where: {id: productId},
+        include: [
+        { 
+            model: models.Image,
+            attributes: ['name', 'imagePath'] 
+        },
+        {
+            model: models.Review,
+            include: [
+                {
+                    model: models.User,
+                    attributes: ['firstName', 'lastName'],
+                },
+            ],
+            attributes: ['review', 'stars', 'updatedAt'],
+        },
+    ],
+    });
+
+    res.render('product-detail', {product});
+};
+
 module.exports = productController;
