@@ -8,8 +8,7 @@ const controller = {};
 controller.showHomePage = async (req, res) => {
   const Brands = models.Brand;
   const Categories = models.Category;
-
-  const listBrands = await Brands.findAll();
+  const Products = models.Product;
 
   //categoryArray: [1, 2, 3, 4] => [[1], [3, 4], [2]]
   const categoryArray = await Categories.findAll();
@@ -21,7 +20,14 @@ controller.showHomePage = async (req, res) => {
     thirdCategoryArray,
   ];
 
-  res.render("index", {listBrands});
+  const products = await Products.findAll({
+    attribute: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
+    order: [['stars', 'DESC']],
+    limit: 10,
+  });
+
+  const listBrands = await Brands.findAll();
+  res.render("index", {listBrands, products});
 };
 
 controller.showPage = (req, res, next) => {

@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
 const expressHandlebars = require("express-handlebars");
+const helper = require("./util/handlebarsHelper");
 
 // Config public static folder
 app.use(express.static(__dirname + "/public"));
@@ -16,6 +17,9 @@ app.engine(
     partialsDir: __dirname + "/views/partials",
     extname: "hbs",
     defaultLayout: "layout",
+    helpers: {
+      displayStars: helper.displayStars,
+    },
   })
 );
 

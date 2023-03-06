@@ -1,0 +1,19 @@
+<div class="product-item">
+    <div class="product-image">
+        <a href="/product-detail">
+            <img src="{{dataValues.imagePath}}" alt="{{dataValues.name}}" />
+        </a>
+        <div class="product-action">
+            <a href="#"><i class="fa fa-cart-plus"></i></a>
+            <a href="#"><i class="fa fa-heart"></i></a>
+            <a href="#"><i class="fa fa-search"></i></a>
+        </div>
+    </div>
+    <div class="product-content">
+        <div class="title"><a href="#">{{dataValues.name}}</a></div>
+        <div class="ratting">
+            {{{displayStars dataValues.stars}}}
+        </div>
+        <div class="price">${{dataValues.price}} <span>${{dataValues.oldPrice}}</span></div>
+    </div>
+</div>
