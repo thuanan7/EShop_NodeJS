@@ -26,6 +26,7 @@ app.engine(
 app.set("view engine", "hbs");
 
 // routes
+app.use("/products", require("./routes/productRoutes"));
 app.use("/", require("./routes/indexRoutes"));
 
 app.use((req, res, next) => {
