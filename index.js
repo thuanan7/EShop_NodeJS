@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const expressHandlebars = require("express-handlebars");
 const helper = require("./util/handlebarsHelper");
+const getDataMiddleware = require('./middlewares/getDataMiddleware');
 
 // Config public static folder
 app.use(express.static(__dirname + "/public"));
@@ -26,6 +27,9 @@ app.engine(
 );
 
 app.set("view engine", "hbs");
+
+// Customize middleware
+app.use(getDataMiddleware);
 
 // routes
 app.use("/products", require("./routes/productRoutes"));
