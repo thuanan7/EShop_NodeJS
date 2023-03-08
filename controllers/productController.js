@@ -1,6 +1,8 @@
 "use strict";
 
 const models = require("../models");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 const productController = {};
 
@@ -8,6 +10,7 @@ productController.show = async (req, res) => {
 	const categoryId = parseInt(req.query.category) || 0;
 	const brandId = parseInt(req.query.brand) || 0;
 	const tagId = parseInt(req.query.tag) || 0;
+	const keyword = req.query.keyword || "";
 
 	const option = {
 		attributes: ["id", "name", "imagePath", "stars", "oldPrice", "price"],
@@ -31,6 +34,12 @@ productController.show = async (req, res) => {
 				attributes: [],
 			},
 		];
+	}
+
+	if (keyword.trim() != "") {
+		option.where.name = {
+			[Op.iLike]: `%${keyword.trim()}%`,
+		}
 	}
 
 	const products = await models.Product.findAll(option);
