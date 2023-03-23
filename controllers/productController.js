@@ -11,19 +11,20 @@ productController.show = async (req, res) => {
 	const brandId = parseInt(req.query.brand) || 0;
 	const tagId = parseInt(req.query.tag) || 0;
 	const keyword = req.query.keyword || "";
+	let _sort = req.query._sort || "price";
 
 	const option = {
-		attributes: ["id", "name", "imagePath", "stars", "oldPrice", "price"],
+		attributes: ["id", "name", "imagePath", "stars", "oldPrice", "price", "createdAt", "updatedAt"],
 		where: {},
 		include: [],
 	};
 
 	if (categoryId > 0) {
-		option.where = { categoryId };
+		option.where.categoryId = categoryId;
 	}
 
 	if (brandId > 0) {
-		option.where = { brandId };
+		option.where.brandId = brandId;
 	}
 
 	if (tagId > 0) {
@@ -41,6 +42,19 @@ productController.show = async (req, res) => {
 			[Op.iLike]: `%${keyword.trim()}%`,
 		}
 	}
+	
+	switch (_sort) {
+		case 'newest':
+			option.order = [['createdAt', 'DESC']];
+			break;
+		case 'popular':
+			option.order = [['stars', 'DESC']];
+			break;
+		default:
+			_sort = "price";
+			option.order = [['price', 'ASC']];
+	}
+	res.locals._sort = _sort;
 
 	const products = await models.Product.findAll(option);
 	res.locals.products = products;

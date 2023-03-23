@@ -33,10 +33,11 @@
                       href="#"
                       class="dropdown-toggle"
                       data-toggle="dropdown"
-                    >Product short by</a>
+                    >Product sort by {{_sort}}</a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a href="#" class="dropdown-item">Newest</a>
-                      <a href="#" class="dropdown-item">Popular</a>
+                      <a href="#" class="dropdown-item" onclick="updateSortParams(event, 'price')">Price</a>
+                      <a href="#" class="dropdown-item" onclick="updateSortParams(event, 'newest')">Newest</a>
+                      <a href="#" class="dropdown-item" onclick="updateSortParams(event, 'popular')">Popular</a>
                     </div>
                   </div>
                 </div>
@@ -75,3 +76,12 @@
   </div>
 </div>
 <!-- Product List End -->
+
+<script>
+  function updateSortParams(event, sortValue) {
+    event.preventDefault();
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('_sort', sortValue);
+    window.location.href = currentUrl.toString();
+  }
+</script>
