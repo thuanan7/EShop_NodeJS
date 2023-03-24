@@ -52,24 +52,8 @@
         </div>
 
         <div class="col-lg-12">
-          <nav aria-label="Page navigation example">
-            {{{paginateHelper pagination}}}
-          </nav>
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-              </li>
-              <li class="page-item active"><a
-                  class="page-link"
-                  href="#"
-                >1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
+          <nav aria-label="Page navigation example" id="pagination">
+            {{{paginateHelper pagination paginationClass="pagination justify-content-center" leftText="Previous" rightText="Next"}}}
           </nav>
         </div>
       </div>
@@ -94,4 +78,21 @@
       updateSortParams(sortButtons[i].innerText.toLowerCase());
     });
   }
+
+  /*const paginateElement = document.querySelector(".pagination");
+  let listPageNumber = paginateElement.childNodes;
+  listPageNumber.forEach(p=> {
+    p.className = "page-item";
+    p.childNodes.forEach(x=> {
+      x.className = "page-link";
+    });
+  })*/
+
+  document.querySelectorAll("#pagination li").forEach((li) => {
+    li.classList.add("page-item");
+  })
+
+  document.querySelectorAll("#pagination a").forEach((a) => {
+    a.classList.add("page-link");
+  })
 </script>
