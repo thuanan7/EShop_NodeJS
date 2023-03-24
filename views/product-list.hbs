@@ -34,7 +34,7 @@
                       class="dropdown-toggle"
                       data-toggle="dropdown"
                     >Product sort by {{_sort}}</a>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-right" id="sort">
                       <a href="#" class="dropdown-item">Price</a>
                       <a href="#" class="dropdown-item">Newest</a>
                       <a href="#" class="dropdown-item">Popular</a>
@@ -71,7 +71,7 @@
     window.location.href = currentUrl.toString();
   }
 
-  const sortButtons = document.getElementsByClassName("dropdown-item");
+  const sortButtons = document.getElementById("sort").childNodes;
   for (let i = 0; i < sortButtons.length; i++) {
     sortButtons[i].addEventListener("click", (event) => {
       event.preventDefault();
