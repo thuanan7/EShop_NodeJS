@@ -68,7 +68,7 @@ productController.show = async (req, res) => {
 	}
 	res.locals._sort = _sort;
 
-	const limit = 9;
+	const limit = 6;
 	option.limit = limit;
 	option.offset = limit * (page - 1);
 
@@ -106,8 +106,32 @@ productController.detail = async (req, res) => {
 				],
 				attributes: ["review", "stars", "updatedAt"],
 			},
+			{
+				model: models.Tag,
+				attributes: ["id"],
+			}
 		],
 	});
+	
+	const tagsId = [];
+	product.dataValues.Tags.forEach(tag => tagsId.push(tag.dataValues.id));
+	
+	const relatedProducts = await models.Product.findAll({
+		include: [
+			{
+				model: models.Tag,
+				where: {
+					id: {
+						[Op.in]: tagsId
+					}
+				},
+				attributes: []
+			}
+		],
+		attributes: ["id", "name", "imagePath", "price", "oldPrice", "stars"],
+		limit: 10,
+	});
+	res.locals.relatedProducts = relatedProducts;
 
 	res.render("product-detail", { product });
 };
