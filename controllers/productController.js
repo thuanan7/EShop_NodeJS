@@ -12,9 +12,21 @@ productController.show = async (req, res) => {
 	const tagId = parseInt(req.query.tag) || 0;
 	const keyword = req.query.keyword || "";
 	let _sort = req.query._sort || "price";
+	let page = isNaN(req.query.page)
+		? 1
+		: Math.max(1, parseInt(req.query.page));
 
 	const option = {
-		attributes: ["id", "name", "imagePath", "stars", "oldPrice", "price", "createdAt", "updatedAt"],
+		attributes: [
+			"id",
+			"name",
+			"imagePath",
+			"stars",
+			"oldPrice",
+			"price",
+			"createdAt",
+			"updatedAt",
+		],
 		where: {},
 		include: [],
 	};
@@ -40,25 +52,37 @@ productController.show = async (req, res) => {
 	if (keyword.trim() != "") {
 		option.where.name = {
 			[Op.iLike]: `%${keyword.trim()}%`,
-		}
+		};
 	}
-	
+
 	switch (_sort) {
-		case 'newest':
-			option.order = [['createdAt', 'DESC']];
+		case "newest":
+			option.order = [["createdAt", "DESC"]];
 			break;
-		case 'popular':
-			option.order = [['stars', 'DESC']];
+		case "popular":
+			option.order = [["stars", "DESC"]];
 			break;
 		default:
 			_sort = "price";
-			option.order = [['price', 'ASC']];
+			option.order = [["price", "ASC"]];
 	}
 	res.locals._sort = _sort;
 
-	const products = await models.Product.findAll(option);
-	res.locals.products = products;
+	const limit = 9;
+	option.limit = limit;
+	option.offset = limit * (page - 1);
 
+	const { rows, count } = await models.Product.findAndCountAll(option);
+
+	res.locals.pagination = {
+		page,
+		limit,
+		totalRows: count,
+		queryParams: req.query
+	};
+
+
+	res.locals.products = rows;
 	res.render("product-list");
 };
 
