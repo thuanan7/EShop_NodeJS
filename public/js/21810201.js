@@ -1,7 +1,7 @@
 'use strict';
 
 async function addCart(id, quantity) {
-    const response = await fetch('/products/cart', {
+    const response = await fetch('/cart', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',

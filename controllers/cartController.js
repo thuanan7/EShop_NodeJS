@@ -14,4 +14,11 @@ cartController.add = async (req, res) => {
     return res.json({quantity: req.session.cart.quantity});
 };
 
+
+//[GET] /cart/
+cartController.show = (req, res) => {
+    res.locals.cart = req.session.cart.getCart();
+    res.render('cart');
+};
+
 module.exports = cartController;

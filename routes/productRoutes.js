@@ -8,6 +8,4 @@ const cartController = require('../controllers/cartController');
 router.get('/:id', getDataMiddleware, productController.detail);
 router.get('/', getDataMiddleware, productController.show);
 
-router.post('/cart', cartController.add);
-
 module.exports = router;
