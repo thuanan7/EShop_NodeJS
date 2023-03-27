@@ -3,8 +3,11 @@ const express = require('express');
 const router = express.Router();
 const productController = require("../controllers/productController");
 const getDataMiddleware = require('../middlewares/getDataMiddleware');
+const cartController = require('../controllers/cartController');
 
 router.get('/:id', getDataMiddleware, productController.detail);
 router.get('/', getDataMiddleware, productController.show);
+
+router.post('/cart', cartController.add);
 
 module.exports = router;
