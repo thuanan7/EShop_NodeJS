@@ -31,7 +31,7 @@
             <tbody class="align-middle">
 
               {{#each cart.items}}
-              <tr>
+              <tr id="cart-item-{{product.id}}-row">
                 <td><a href="#"><img
                       src="{{product.imagePath}}"
                       alt="{{product.name}}"
@@ -40,15 +40,15 @@
                 <td>${{product.price}}</td>
                 <td>
                   <div class="qty">
-                    <button class="btn-minus"><i
+                    <button class="btn-minus" onclick="updateItem({{{product.id}}}, parseInt(document.getElementById('item-{{product.id}}-input').value) - 1)"><i
                         class="fa fa-minus"
                       ></i></button>
-                    <input type="number" value="{{quantity}}" readonly/>
-                    <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                    <input id="item-{{product.id}}-input" type="number" value="{{quantity}}" readonly/>
+                    <button class="btn-plus" onclick="updateItem({{product.id}}, parseInt(document.getElementById('item-{{product.id}}-input').value) + 1)"><i class="fa fa-plus"></i></button>
                   </div>
                 </td>
-                <td>${{total}}</td>
-                <td><button><i class="fa fa-trash"></i></button></td>
+                <td id="item-{{product.id}}-total">${{total}}</td>
+                <td><button onclick="removeItem({{product.id}})"><i class="fa fa-trash"></i></button></td>
               </tr>
               {{/each}}
 
@@ -68,12 +68,12 @@
         <div class="cart-summary">
           <div class="cart-content">
             <h3>Cart Summary</h3>
-            <p>Sub Total<span>${{cart.subtotal}}</span></p>
+            <p>Sub Total<span id="cart-subtotal">${{cart.subtotal}}</span></p>
             <p>Shipping Cost<span>${{cart.shipping}}</span></p>
-            <h4>Grand Total<span>${{cart.total}}</span></h4>
+            <h4>Grand Total<span id="cart-grandtotal">${{cart.total}}</span></h4>
           </div>
           <div class="cart-btn">
-            <button>Update Cart</button>
+            <button onclick="clearCart()">Clear Cart</button>
             <button>Checkout</button>
           </div>
         </div>
