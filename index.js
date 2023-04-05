@@ -51,6 +51,7 @@ app.use(
 app.use(require("./middlewares/createCartMiddleware"));
 
 // routes
+app.use("/users", require("./routes/usersRoutes"));
 app.use("/products", require("./routes/productRoutes"));
 app.use("/cart", require("./routes/cartRoutes"));
 app.use("/", require("./routes/indexRoutes"));

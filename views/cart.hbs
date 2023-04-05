@@ -32,11 +32,11 @@
 
               {{#each cart.items}}
               <tr id="cart-item-{{product.id}}-row">
-                <td><a href="#"><img
+                <td><a href="/products/{{product.id}}"><img
                       src="{{product.imagePath}}"
                       alt="{{product.name}}"
                     /></a></td>
-                <td><a href="#">{{product.name}}</a></td>
+                <td><a href="/products/{{product.id}}">{{product.name}}</a></td>
                 <td>${{product.price}}</td>
                 <td>
                   <div class="qty">
@@ -74,7 +74,7 @@
           </div>
           <div class="cart-btn">
             <button onclick="clearCart()">Clear Cart</button>
-            <button>Checkout</button>
+            <button onclick="location.href='/users/checkout'">Checkout</button>
           </div>
         </div>
       </div>
