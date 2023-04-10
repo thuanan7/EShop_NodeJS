@@ -11,7 +11,7 @@
 <!-- Breadcrumb End -->
 
 <!-- Checkout Start -->
-<form action="/users/placeorders" method="post">
+<form action="/users/placeorders" method="post" novalidate onsubmit="placeOrders(event)">
 <div class="checkout">
   <div class="container">
     <div class="row">
@@ -64,23 +64,23 @@
           <div class="row">
             <div class="col-md-6">
               <label>First Name</label>
-              <input class="form-control" name="firstName" type="text" placeholder="First Name" />
+              <input class="form-control" name="firstName" type="text" placeholder="First Name" required/>
             </div>
             <div class="col-md-6">
               <label>Last Name</label>
-              <input class="form-control" name="lastName" type="text" placeholder="Last Name" />
+              <input class="form-control" name="lastName" type="text" placeholder="Last Name" required/>
             </div>
             <div class="col-md-6">
               <label>E-mail</label>
-              <input class="form-control" name="email" type="text" placeholder="E-mail" />
+              <input class="form-control" name="email" type="text" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
             </div>
             <div class="col-md-6">
               <label>Mobile No</label>
-              <input class="form-control" name="mobile" type="text" placeholder="Mobile No" />
+              <input class="form-control" name="mobile" type="text" placeholder="Mobile No" required/>
             </div>
             <div class="col-md-12">
               <label>Address</label>
-              <input class="form-control" name="address" type="text" placeholder="Address" />
+              <input class="form-control" name="address" type="text" placeholder="Address" required/>
             </div>
             <div class="col-md-6">
               <label>Country</label>

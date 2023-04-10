@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "Asddsaas1#",
+    "password": "postgres",
     "database": "eshopDB",
     "host": "127.0.0.1",
     "dialect": "postgres"
