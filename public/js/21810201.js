@@ -81,8 +81,9 @@ function placeOrders(event) {
 
 	const addressId = document.querySelector('input[name="addressId"]:checked');
 	if (!addressId || addressId.value == 0) {
-		event.target.reportValidity();
-	} else {
-		event.target.submit();
+		if (!event.target.checkValidity()) {
+			return event.target.reportValidity();
+		}
 	}
+	event.target.submit();
 }
