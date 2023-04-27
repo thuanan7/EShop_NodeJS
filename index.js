@@ -7,6 +7,17 @@ const expressHandlebars = require("express-handlebars");
 const helper = require("./util/handlebarsHelper");
 const { createPagination } = require("express-handlebars-paginate");
 const session = require("express-session");
+const redisStore = require("connect-redis").default;
+const { createClient } = require("redis");
+
+const internalRedisUrl = "redis://red-ch4i7ue4dad97s3eebl0:6379";
+const externalRedisUrl =
+	"rediss://red-ch4i7ue4dad97s3eebl0:twkJt3rZKuEBMOCC6HbPJgvsevDOqWRZ@singapore-redis.render.com:6379";
+
+const redisClient = createClient({
+	url: internalRedisUrl,
+});
+redisClient.connect().catch(console.error);
 
 // Config public static folder
 app.use(express.static(__dirname + "/public"));
@@ -31,17 +42,18 @@ app.engine(
 app.set("view engine", "hbs");
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 //Config express-session
 app.use(
 	session({
 		secret: "keyboard cat",
+		store: new redisStore({ client: redisClient }),
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
 			httpOnly: true,
-			maxAge: 20 * 60 * 1000 // 20 minutes
+			maxAge: 20 * 60 * 1000, // 20 minutes
 		},
 	})
 );
