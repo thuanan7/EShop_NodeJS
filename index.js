@@ -1,5 +1,5 @@
 "use strict";
-
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -10,12 +10,8 @@ const session = require("express-session");
 const redisStore = require("connect-redis").default;
 const { createClient } = require("redis");
 
-const internalRedisUrl = "redis://red-ch4i7ue4dad97s3eebl0:6379";
-const externalRedisUrl =
-	"rediss://red-ch4i7ue4dad97s3eebl0:twkJt3rZKuEBMOCC6HbPJgvsevDOqWRZ@singapore-redis.render.com:6379";
-
 const redisClient = createClient({
-	url: internalRedisUrl,
+	url: process.env.REDIS_URL,
 });
 redisClient.connect().catch(console.error);
 
@@ -47,7 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 //Config express-session
 app.use(
 	session({
-		secret: "keyboard cat",
+		secret: process.env.SESSION_SECRET,
 		store: new redisStore({ client: redisClient }),
 		resave: false,
 		saveUninitialized: false,
