@@ -10,6 +10,7 @@ controller.show = (req, res) => {
 controller.login = (req, res, next) => {
 	let keepSingedIn = req.body.keepSignedIn;
     let cart = req.session.cart;
+    let redirectTo = req.session.redirectTo ? req.session.redirectTo : "/users/my-account";
 	passport.authenticate("local-login", (error, user) => {
 		if (error) {
 			return next(error);
@@ -25,7 +26,8 @@ controller.login = (req, res, next) => {
 				? 24 * 60 * 60 * 1000
 				: null;
             req.session.cart = cart;
-			return res.redirect("/users/my-account");
+
+			return res.redirect(redirectTo);
 		});
 	})(req, res, next);
 };
@@ -40,5 +42,14 @@ controller.logout = (req, res, next) => {
         res.redirect("/");
 	});
 };
+
+controller.isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    req.session.redirectTo = req.originalUrl;
+    res.redirect("/users/login");
+}
 
 module.exports = controller;

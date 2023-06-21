@@ -65,7 +65,7 @@ passport.serializeUser((user, done) => {
 // ham duoc goi boi passport.session de lay thong tin cua user tu csdl va dua vao req.user
 passport.deserializeUser(async (id, done) => {
 	try {
-		let user = models.User.findOne({
+		let user = await models.User.findOne({
 			where: {
 				id,
 			},

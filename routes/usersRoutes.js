@@ -4,6 +4,10 @@ const router = express.Router();
 const usersController = require("../controllers/usersController");
 const { body, validationResult } = require("express-validator");
 
+const { isLoggedIn } = require("../controllers/authController");
+
+router.use('/', isLoggedIn);
+
 router.get("/checkout", usersController.checkout);
 router.post(
 	"/placeorders",

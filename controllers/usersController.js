@@ -6,7 +6,7 @@ const usersController = {};
 // [GET] /users/checkout
 usersController.checkout = async (req, res) => {
 	if (!req.session.cart.quantity) return res.redirect("/products");
-	const userId = 1;
+	const userId = req.user.id; // co duoc tu passport da luu user vao req.user sau khi dang nhap thanh cong
 	res.locals.cart = req.session.cart.getCart();
 	res.locals.addresses = await models.Address.findAll({ where: { userId } });
 	res.render("checkout");
@@ -14,7 +14,7 @@ usersController.checkout = async (req, res) => {
 
 // [POST] /users/placeorders
 usersController.placeOrders = async (req, res) => {
-	const userId = 1;
+	const userId = req.user.id;
 	const addressId = req.body.addressId;
 	let address = await models.Address.findByPk(addressId);
 	if (!address) {
@@ -52,7 +52,7 @@ usersController.placeOrders = async (req, res) => {
 };
 
 async function saveOrders(req, res, status) {
-	const userId = 1;
+	const userId = req.user.id;
 	const cart = req.session.cart.getCart();
 	const order = await models.Order.create({
 		quantity: cart.quantity,
