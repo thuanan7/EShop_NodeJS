@@ -14,6 +14,8 @@ const redisClient = createClient({
 	url: process.env.REDIS_URL,
 });
 redisClient.connect().catch(console.error);
+const passport = require("./controllers/passport");
+const flash = require("connect-flash");
 
 // Config public static folder
 app.use(express.static(__dirname + "/public"));
@@ -32,6 +34,9 @@ app.engine(
 			formatTime: helper.formatTime,
 			paginateHelper: createPagination,
 		},
+		runtimeOptions: {
+			allowProtoPropertiesByDefault: true
+		}
 	})
 );
 
@@ -54,12 +59,24 @@ app.use(
 	})
 );
 
+//Config passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Config connect-flag
+app.use(flash());
+
 // Custom middleware
+app.use((req, res, next) => {
+	res.locals.isLoggedIn = req.isAuthenticated();
+	next();
+})
+
 // Create session cart
 app.use(require("./middlewares/createCartMiddleware"));
 
 // routes
-app.use("/users", require("./routes/usersRoutes"));
+app.use("/users", require("./routes/authRouter"), require("./routes/usersRoutes"));
 app.use("/products", require("./routes/productRoutes"));
 app.use("/cart", require("./routes/cartRoutes"));
 app.use("/", require("./routes/indexRoutes"));

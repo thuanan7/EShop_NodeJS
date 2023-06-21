@@ -31,4 +31,8 @@ router.post(
 	usersController.placeOrders
 );
 
+router.get("/my-account", (req, res) => {
+	res.render('my-account');
+})
+
 module.exports = router;
