@@ -19,7 +19,6 @@ router.post(
 		if (message) {
 			return res.render("login", {
 				loginMessage: message,
-				registerMessage: message,
 			});
 		}
 		next();
@@ -27,7 +26,39 @@ router.post(
 	authController.login
 );
 
-router.post("/register", authController.register);
+router.post(
+	"/register",
+	body("firstName").trim().notEmpty().withMessage("First Name is required!"),
+	body("lastName").trim().notEmpty().withMessage("Last Name is required!"),
+	body("email")
+		.trim()
+		.notEmpty()
+		.withMessage("Email is required!")
+		.isEmail()
+		.withMessage("Invalid Email Address!"),
+	body("mobile").trim().notEmpty().withMessage("Phone number is required!"),
+	body("password").trim().notEmpty().withMessage("Password is required!"),
+	body("password")
+		.matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
+		.withMessage(
+			"Password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+		),
+	body("confirmPassword")
+		.custom((confirmPassword, { req }) => {
+			return confirmPassword == req.body.password;
+		})
+		.withMessage("Confirm password not match!"),
+	(req, res, next) => {
+		let message = getErrorMessage(req);
+		if (message) {
+			return res.render("login", {
+				registerMessage: message,
+			});
+		}
+		next();
+	},
+	authController.register
+);
 
 router.get("/logout", authController.logout);
 module.exports = router;

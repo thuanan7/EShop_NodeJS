@@ -87,3 +87,15 @@ function placeOrders(event) {
 	}
 	event.target.submit();
 }
+
+function checkPasswordConfirm(formId) {
+	const password = document.querySelector(`#${formId} input[name=password]`);
+	const confirmPassword = document.querySelector(`#${formId} input[name=confirmPassword]`);
+	
+	if (password.value != confirmPassword.value) {
+		confirmPassword.setCustomValidity('Password not match!');
+		confirmPassword.reportValidity();
+	} else {
+		confirmPassword.setCustomValidity('');
+	}
+}
