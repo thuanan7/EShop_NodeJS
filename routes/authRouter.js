@@ -17,12 +17,17 @@ router.post(
 	(req, res, next) => {
 		let message = getErrorMessage(req);
 		if (message) {
-			return res.render("login", { loginMessage: message });
+			return res.render("login", {
+				loginMessage: message,
+				registerMessage: message,
+			});
 		}
 		next();
 	},
 	authController.login
 );
+
+router.post("/register", authController.register);
 
 router.get("/logout", authController.logout);
 module.exports = router;

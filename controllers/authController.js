@@ -4,13 +4,18 @@ const controller = {};
 const passport = require("./passport");
 
 controller.show = (req, res) => {
-	res.render("login", { loginMessage: req.flash("loginMessage") });
+	res.render("login", {
+		loginMessage: req.flash("loginMessage"),
+		registerMessage: req.flash("registerMessage"),
+	});
 };
 
 controller.login = (req, res, next) => {
 	let keepSingedIn = req.body.keepSignedIn;
-    let cart = req.session.cart;
-    let redirectTo = req.session.redirectTo ? req.session.redirectTo : "/users/my-account";
+	let cart = req.session.cart;
+	let redirectTo = req.session.redirectTo
+		? req.session.redirectTo
+		: "/users/my-account";
 	passport.authenticate("local-login", (error, user) => {
 		if (error) {
 			return next(error);
@@ -25,7 +30,7 @@ controller.login = (req, res, next) => {
 			req.session.cookie.maxAge = keepSingedIn
 				? 24 * 60 * 60 * 1000
 				: null;
-            req.session.cart = cart;
+			req.session.cart = cart;
 
 			return res.redirect(redirectTo);
 		});
@@ -33,23 +38,48 @@ controller.login = (req, res, next) => {
 };
 
 controller.logout = (req, res, next) => {
-    let cart = req.session.cart;
+	let cart = req.session.cart;
 	req.logout((error) => {
 		if (error) {
 			return next(error);
 		}
-        req.session.cart = cart;
-        res.redirect("/");
+		req.session.cart = cart;
+		res.redirect("/");
 	});
 };
 
 controller.isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
+	if (req.isAuthenticated()) {
+		return next();
+	}
 
-    req.session.redirectTo = req.originalUrl;
-    res.redirect("/users/login");
-}
+	req.session.redirectTo = req.originalUrl;
+	res.redirect("/users/login");
+};
+
+controller.register = (req, res, next) => {
+	let cart = req.session.cart;
+	let redirectTo = req.session.redirectTo
+		? req.session.redirectTo
+		: "/users/my-account";
+	passport.authenticate("local-register", (error, user) => {
+		if (error) {
+			return next(error);
+		}
+
+		if (!user) {
+			return res.redirect("/users/login");
+		}
+
+		req.logIn(user, (error) => {
+			if (error) {
+				return next(error);
+			}
+
+			req.session.cart = cart;
+			return res.redirect(redirectTo);
+		});
+	})(req, res, next);
+};
 
 module.exports = controller;
