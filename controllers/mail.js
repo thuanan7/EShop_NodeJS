@@ -26,7 +26,7 @@ function sendForgotPasswordMail(user, host, resetLink) {
 					`
                     <p>Hi ${user.firstName} ${user.lastName},</p>
                     <br/>
-                    <p>You recently requested to reset the password for your ${host} account. Click the button below to proceed.</p>
+                    <p>You recently requested to reset the password for your https://${host} account. Click the button below to proceed.</p>
                     <br/>
                     <p><a href="${resetLink}">Reset Password</a></p>
                     <br/>
