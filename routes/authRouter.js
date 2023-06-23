@@ -26,6 +26,8 @@ router.post(
 	authController.login
 );
 
+router.get("/logout", authController.logout);
+
 router.post(
 	"/register",
 	body("firstName").trim().notEmpty().withMessage("First Name is required!"),
@@ -60,5 +62,52 @@ router.post(
 	authController.register
 );
 
-router.get("/logout", authController.logout);
+router.get("/forgot", authController.showForgotPassword);
+router.post(
+	"/forgot",
+	body("email")
+		.trim()
+		.notEmpty()
+		.withMessage("Email is required!")
+		.isEmail()
+		.withMessage("Invalid Email Address!"),
+
+	(req, res, next) => {
+		let message = getErrorMessage(req);
+		if (message) {
+			return res.render("forgot-password", {
+				message,
+			});
+		}
+		next();
+	},
+	authController.forgotPassword
+);
+
+router.get("/reset", authController.showResetPassword);
+router.post(
+	"/reset",
+	body("password").trim().notEmpty().withMessage("Password is required!"),
+	body("password")
+		.matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
+		.withMessage(
+			"Password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+		),
+	body("confirmPassword")
+		.custom((confirmPassword, { req }) => {
+			return confirmPassword == req.body.password;
+		})
+		.withMessage("Confirm password not match!"),
+	(req, res, next) => {
+		let message = getErrorMessage(req);
+		if (message) {
+			return res.render("reset-password", {
+				message,
+			});
+		}
+		next();
+	},
+	authController.resetPassword
+);
+
 module.exports = router;
