@@ -72,6 +72,11 @@ app.use((req, res, next) => {
 	next();
 })
 
+app.use((req, res, next) => {
+	console.log(`\nURL: ${req.url}\n`);
+	next();
+})
+
 // Create session cart
 app.use(require("./middlewares/createCartMiddleware"));
 
