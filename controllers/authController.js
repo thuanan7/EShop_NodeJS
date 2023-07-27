@@ -17,7 +17,7 @@ controller.login = (req, res, next) => {
 	let cart = req.session.cart;
 	let redirectTo = req.session.redirectTo
 		? req.session.redirectTo
-		: "/users/my-account";
+		: "/";
 	passport.authenticate("local-login", (error, user) => {
 		if (error) {
 			return next(error);
@@ -63,7 +63,7 @@ controller.register = (req, res, next) => {
 	let cart = req.session.cart;
 	let redirectTo = req.session.redirectTo
 		? req.session.redirectTo
-		: "/users/my-account";
+		: "/";
 	passport.authenticate("local-register", (error, user) => {
 		if (error) {
 			return next(error);
