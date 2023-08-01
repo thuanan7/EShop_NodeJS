@@ -17,6 +17,10 @@ redisClient.connect().catch(console.error);
 const passport = require("./controllers/passport");
 const flash = require("connect-flash");
 
+client.on('error', function(err) {
+    console.error('Redis Error: ', err);
+});
+
 // Config public static folder
 app.use(express.static(__dirname + "/public"));
 
