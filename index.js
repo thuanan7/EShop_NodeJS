@@ -17,7 +17,7 @@ redisClient.connect().catch(console.error);
 const passport = require("./controllers/passport");
 const flash = require("connect-flash");
 
-client.on('error', function(err) {
+redisClient.on('error', function(err) {
     console.error('Redis Error: ', err);
 });
 
